@@ -19,7 +19,8 @@ export const router = createBrowserRouter([
     path: "/",
     element: <AppShell />,
     children: [
-      { index: true, element: <Home /> },
+      { index: true, element: <Login /> },
+      { path: "home", element: <Home /> },
       { path: "login", element: <Login /> },
       { path: "dashboard", element: <Dashboard /> },
       { path: "*", element: <NotFound /> },
