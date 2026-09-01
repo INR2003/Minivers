@@ -16,8 +16,6 @@ import {
   FileCheck2,
 } from "lucide-react";
 
-import { authClient } from "@/lib/auth-client";
-
 import Loader from "./loader";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -31,14 +29,16 @@ import {
   CardTitle,
 } from "./ui/card";
 
+const API_BASE = "http://127.0.0.1:8000/api/auth";
+
 export default function SignInForm({
   onSwitchToSignUp,
 }: {
   onSwitchToSignUp: () => void;
 }) {
   const navigate = useNavigate();
-  const { isPending } = authClient.useSession();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
     defaultValues: {
@@ -46,48 +46,37 @@ export default function SignInForm({
       password: "",
     },
     onSubmit: async ({ value }) => {
-      // Check hardcoded credentials
-      if (
-        value.email.trim().toLowerCase() === "iyyanar@vtindex.com" &&
-        value.password === "123"
-      ) {
-        localStorage.setItem(
-          "minivers_user",
-          JSON.stringify({
-            name: "Iyyanar",
-            email: "iyyanar@vtindex.com",
-          })
-        );
-        toast.success("Welcome back, Iyyanar! Signed in successfully");
-        navigate("/dashboard");
-        return;
-      }
+      setIsLoading(true);
+      try {
+        const res = await fetch(`${API_BASE}/user-details/login/`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: value.email,
+            password: value.password,
+          }),
+        });
 
-      // Backend auth fallback
-      await authClient.signIn.email(
-        {
-          email: value.email,
-          password: value.password,
-        },
-        {
-          onSuccess: () => {
-            localStorage.setItem(
-              "minivers_user",
-              JSON.stringify({
-                name: value.email.split("@")[0],
-                email: value.email,
-              })
-            );
-            navigate("/dashboard");
-            toast.success("Welcome back! Signed in successfully");
-          },
-          onError: (error) => {
-            toast.error(
-              error.error?.message || error.error?.statusText || "Sign in failed"
-            );
-          },
+        const data = await res.json();
+
+        if (!res.ok) {
+          const firstError =
+            data?.email?.[0] ||
+            data?.password?.[0] ||
+            data?.non_field_errors?.[0] ||
+            "Sign in failed";
+          toast.error(firstError);
+          return;
         }
-      );
+
+        localStorage.setItem("minivers_user", JSON.stringify(data.user));
+        toast.success(`Welcome back, ${data.user.name}! Signed in successfully`);
+        navigate("/dashboard");
+      } catch {
+        toast.error("Network error – could not reach the server.");
+      } finally {
+        setIsLoading(false);
+      }
     },
     validators: {
       onSubmit: z.object({
@@ -97,7 +86,7 @@ export default function SignInForm({
     },
   });
 
-  if (isPending) {
+  if (isLoading) {
     return <Loader />;
   }
 

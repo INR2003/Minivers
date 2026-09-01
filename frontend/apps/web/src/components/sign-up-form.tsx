@@ -17,8 +17,6 @@ import {
   FileCheck2,
 } from "lucide-react";
 
-import { authClient } from "@/lib/auth-client";
-
 import Loader from "./loader";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -32,14 +30,16 @@ import {
   CardTitle,
 } from "./ui/card";
 
+const API_BASE = "http://127.0.0.1:8000/api/auth";
+
 export default function SignUpForm({
   onSwitchToSignIn,
 }: {
   onSwitchToSignIn: () => void;
 }) {
   const navigate = useNavigate();
-  const { isPending } = authClient.useSession();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
     defaultValues: {
@@ -48,35 +48,50 @@ export default function SignUpForm({
       name: "",
     },
     onSubmit: async ({ value }) => {
-      await authClient.signUp.email(
-        {
-          email: value.email,
-          password: value.password,
-          name: value.name,
-        },
-        {
-          onSuccess: () => {
-            navigate("/dashboard");
-            toast.success("Account created successfully! Welcome to Minivers");
-          },
-          onError: (error) => {
-            toast.error(
-              error.error?.message || error.error?.statusText || "Sign up failed"
-            );
-          },
+      setIsLoading(true);
+      try {
+        const res = await fetch(`${API_BASE}/user-details/register/`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: value.name,
+            email: value.email,
+            password: value.password,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          const firstError =
+            data?.email?.[0] ||
+            data?.password?.[0] ||
+            data?.name?.[0] ||
+            data?.non_field_errors?.[0] ||
+            "Sign up failed";
+          toast.error(firstError);
+          return;
         }
-      );
+
+        localStorage.setItem("minivers_user", JSON.stringify(data.user));
+        toast.success("Account created successfully! Welcome to Minivers 🎉");
+        navigate("/dashboard");
+      } catch {
+        toast.error("Network error – could not reach the server.");
+      } finally {
+        setIsLoading(false);
+      }
     },
     validators: {
       onSubmit: z.object({
         name: z.string().min(2, "Name must be at least 2 characters"),
         email: z.string().email("Please enter a valid email address"),
-        password: z.string().min(8, "Password must be at least 8 characters"),
+        password: z.string().min(6, "Password must be at least 6 characters"),
       }),
     },
   });
 
-  if (isPending) {
+  if (isLoading) {
     return <Loader />;
   }
 
@@ -238,7 +253,7 @@ export default function SignUpForm({
                     </div>
                   )}
                 </form.Field>
-              </div>
+                </div>
 
               {/* Submit Button */}
               <form.Subscribe>

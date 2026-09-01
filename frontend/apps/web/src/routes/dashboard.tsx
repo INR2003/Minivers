@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { User, ShieldCheck, Database, Key } from "lucide-react";
 
-import { authClient } from "@/lib/auth-client";
 import { trpc } from "@/utils/trpc";
 import {
   Card,
@@ -14,22 +13,20 @@ import {
 } from "@/components/ui/card";
 
 export default function Dashboard() {
-  const { data: session, isPending } = authClient.useSession();
   const navigate = useNavigate();
 
   const storedUserRaw = typeof window !== "undefined" ? localStorage.getItem("minivers_user") : null;
-  const storedUser = storedUserRaw ? JSON.parse(storedUserRaw) : null;
-  const currentUser = session?.user || storedUser;
+  const currentUser = storedUserRaw ? JSON.parse(storedUserRaw) : null;
 
   const privateData = useQuery(trpc.privateData.queryOptions());
 
   useEffect(() => {
-    if (!currentUser && !isPending) {
+    if (!currentUser) {
       navigate("/login");
     }
-  }, [currentUser, isPending, navigate]);
+  }, [currentUser, navigate]);
 
-  if (isPending && !storedUser) {
+  if (!currentUser) {
     return (
       <div className="flex h-64 items-center justify-center">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#007ACC] border-t-transparent" />
