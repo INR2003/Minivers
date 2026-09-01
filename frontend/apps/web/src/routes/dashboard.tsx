@@ -3,8 +3,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { User, ShieldCheck, Database, Key } from "lucide-react";
 
-import { authClient } from "@/lib/auth-client";
-import { trpc } from "@/utils/trpc";
 import {
   Card,
   CardContent,
@@ -13,23 +11,31 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+const API_BASE = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000";
+
 export default function Dashboard() {
-  const { data: session, isPending } = authClient.useSession();
   const navigate = useNavigate();
 
   const storedUserRaw = typeof window !== "undefined" ? localStorage.getItem("minivers_user") : null;
-  const storedUser = storedUserRaw ? JSON.parse(storedUserRaw) : null;
-  const currentUser = session?.user || storedUser;
+  const currentUser = storedUserRaw ? JSON.parse(storedUserRaw) : null;
 
-  const privateData = useQuery(trpc.privateData.queryOptions());
+  // Ping the Django health-check endpoint to show live API status
+  const { data: healthData, isLoading: healthLoading } = useQuery({
+    queryKey: ["django-health"],
+    queryFn: async () => {
+      const res = await fetch(`${API_BASE}/`);
+      return res.json() as Promise<{ status: string; message: string }>;
+    },
+    retry: false,
+  });
 
   useEffect(() => {
-    if (!currentUser && !isPending) {
+    if (!currentUser) {
       navigate("/login");
     }
-  }, [currentUser, isPending, navigate]);
+  }, [currentUser, navigate]);
 
-  if (isPending && !storedUser) {
+  if (!currentUser) {
     return (
       <div className="flex h-64 items-center justify-center">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#007ACC] border-t-transparent" />
@@ -106,7 +112,11 @@ export default function Dashboard() {
             <div>
               <span className="text-muted-foreground block text-xs">API Status</span>
               <span className="font-medium text-emerald-600 dark:text-emerald-400">
-                {privateData.isLoading ? "Connecting..." : privateData.data?.message || "Connected"}
+                {healthLoading
+                  ? "Connecting..."
+                  : healthData?.status === "ok"
+                  ? "Connected ✓"
+                  : "Unavailable"}
               </span>
             </div>
           </CardContent>

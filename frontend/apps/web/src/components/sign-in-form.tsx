@@ -16,8 +16,6 @@ import {
   FileCheck2,
 } from "lucide-react";
 
-import { authClient } from "@/lib/auth-client";
-
 import Loader from "./loader";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -25,11 +23,11 @@ import { Label } from "./ui/label";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import { api } from "@/lib/api";
 
 export default function SignInForm({
   onSwitchToSignUp,
@@ -37,8 +35,8 @@ export default function SignInForm({
   onSwitchToSignUp: () => void;
 }) {
   const navigate = useNavigate();
-  const { isPending } = authClient.useSession();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
     defaultValues: {
@@ -46,48 +44,17 @@ export default function SignInForm({
       password: "",
     },
     onSubmit: async ({ value }) => {
-      // Check hardcoded credentials
-      if (
-        value.email.trim().toLowerCase() === "iyyanar@vtindex.com" &&
-        value.password === "123"
-      ) {
-        localStorage.setItem(
-          "minivers_user",
-          JSON.stringify({
-            name: "Iyyanar",
-            email: "iyyanar@vtindex.com",
-          })
-        );
-        toast.success("Welcome back, Iyyanar! Signed in successfully");
+      setIsLoading(true);
+      try {
+        const data = await api.auth.login(value.email, value.password);
+        localStorage.setItem("minivers_user", JSON.stringify(data.user));
+        toast.success(`Welcome back, ${data.user.name}! Signed in successfully`);
         navigate("/dashboard");
-        return;
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : "Sign in failed");
+      } finally {
+        setIsLoading(false);
       }
-
-      // Backend auth fallback
-      await authClient.signIn.email(
-        {
-          email: value.email,
-          password: value.password,
-        },
-        {
-          onSuccess: () => {
-            localStorage.setItem(
-              "minivers_user",
-              JSON.stringify({
-                name: value.email.split("@")[0],
-                email: value.email,
-              })
-            );
-            navigate("/dashboard");
-            toast.success("Welcome back! Signed in successfully");
-          },
-          onError: (error) => {
-            toast.error(
-              error.error?.message || error.error?.statusText || "Sign in failed"
-            );
-          },
-        }
-      );
     },
     validators: {
       onSubmit: z.object({
@@ -97,9 +64,10 @@ export default function SignInForm({
     },
   });
 
-  if (isPending) {
+  if (isLoading) {
     return <Loader />;
   }
+
 
   return (
     <div className="flex min-h-[calc(100svh-4rem)] w-full items-center justify-center bg-gradient-to-b from-[#E3FDFD]/40 via-background to-[#CBF1F5]/20 dark:from-[#0b131e] dark:via-background dark:to-[#162a3d] px-3.5 py-6 sm:px-6 sm:py-10">

@@ -17,8 +17,6 @@ import {
   FileCheck2,
 } from "lucide-react";
 
-import { authClient } from "@/lib/auth-client";
-
 import Loader from "./loader";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -31,6 +29,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import { api } from "@/lib/api";
 
 export default function SignUpForm({
   onSwitchToSignIn,
@@ -38,8 +37,8 @@ export default function SignUpForm({
   onSwitchToSignIn: () => void;
 }) {
   const navigate = useNavigate();
-  const { isPending } = authClient.useSession();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
     defaultValues: {
@@ -48,37 +47,31 @@ export default function SignUpForm({
       name: "",
     },
     onSubmit: async ({ value }) => {
-      await authClient.signUp.email(
-        {
-          email: value.email,
-          password: value.password,
-          name: value.name,
-        },
-        {
-          onSuccess: () => {
-            navigate("/dashboard");
-            toast.success("Account created successfully! Welcome to Minivers");
-          },
-          onError: (error) => {
-            toast.error(
-              error.error?.message || error.error?.statusText || "Sign up failed"
-            );
-          },
-        }
-      );
+      setIsLoading(true);
+      try {
+        const data = await api.auth.register(value.name, value.email, value.password);
+        localStorage.setItem("minivers_user", JSON.stringify(data.user));
+        toast.success("Account created successfully! Welcome to Minivers 🎉");
+        navigate("/dashboard");
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : "Sign up failed");
+      } finally {
+        setIsLoading(false);
+      }
     },
     validators: {
       onSubmit: z.object({
         name: z.string().min(2, "Name must be at least 2 characters"),
         email: z.string().email("Please enter a valid email address"),
-        password: z.string().min(8, "Password must be at least 8 characters"),
+        password: z.string().min(6, "Password must be at least 6 characters"),
       }),
     },
   });
 
-  if (isPending) {
+  if (isLoading) {
     return <Loader />;
   }
+
 
   return (
     <div className="flex min-h-[calc(100svh-4rem)] w-full items-center justify-center bg-gradient-to-b from-[#E3FDFD]/40 via-background to-[#CBF1F5]/20 dark:from-[#0b131e] dark:via-background dark:to-[#162a3d] px-3.5 py-6 sm:px-6 sm:py-10">
@@ -238,7 +231,7 @@ export default function SignUpForm({
                     </div>
                   )}
                 </form.Field>
-              </div>
+                </div>
 
               {/* Submit Button */}
               <form.Subscribe>
