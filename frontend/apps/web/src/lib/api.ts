@@ -9,6 +9,7 @@ export interface UserDetails {
   id: number;
   name: string;
   email: string;
+  access_code: string;
   created_at: string;
   updated_at: string;
 }
@@ -20,6 +21,7 @@ export interface LoginResponse {
 
 export interface RegisterResponse {
   message: string;
+  access_code: string;
   user: UserDetails;
 }
 
@@ -34,6 +36,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   if (!res.ok) {
     // Extract first error message from DRF error response
     const firstError =
+      data?.access_code?.[0] ||
       data?.email?.[0] ||
       data?.password?.[0] ||
       data?.name?.[0] ||
@@ -48,12 +51,14 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 export const api = {
   auth: {
-    login: (email: string, password: string) =>
+    /** Sign in using the unique access code generated at registration. */
+    login: (accessCode: string) =>
       request<LoginResponse>("/user-details/login/", {
         method: "POST",
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ access_code: accessCode }),
       }),
 
+    /** Register with name, email, password. Returns the one-time access_code to save. */
     register: (name: string, email: string, password: string) =>
       request<RegisterResponse>("/user-details/register/", {
         method: "POST",

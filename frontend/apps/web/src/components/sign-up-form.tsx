@@ -15,6 +15,8 @@ import {
   Sparkles,
   KeyRound,
   FileCheck2,
+  Copy,
+  CheckCircle2,
 } from "lucide-react";
 
 import Loader from "./loader";
@@ -39,6 +41,8 @@ export default function SignUpForm({
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [accessCode, setAccessCode] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const form = useForm({
     defaultValues: {
@@ -50,9 +54,10 @@ export default function SignUpForm({
       setIsLoading(true);
       try {
         const data = await api.auth.register(value.name, value.email, value.password);
+        // Store user but show the access code before navigating
         localStorage.setItem("minivers_user", JSON.stringify(data.user));
-        toast.success("Account created successfully! Welcome to Minivers 🎉");
-        navigate("/dashboard");
+        setAccessCode(data.access_code);
+        toast.success("Account created! Save your access code below 🔑");
       } catch (err) {
         toast.error(err instanceof Error ? err.message : "Sign up failed");
       } finally {
@@ -68,11 +73,91 @@ export default function SignUpForm({
     },
   });
 
+  const handleCopy = () => {
+    if (accessCode) {
+      navigator.clipboard.writeText(accessCode);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   if (isLoading) {
     return <Loader />;
   }
 
+  // ── Access Code reveal screen ─────────────────────────────────────────────
+  if (accessCode) {
+    return (
+      <div className="flex min-h-[calc(100svh-4rem)] w-full items-center justify-center bg-gradient-to-b from-[#E3FDFD]/40 via-background to-[#CBF1F5]/20 dark:from-[#0b131e] dark:via-background dark:to-[#162a3d] px-3.5 py-6 sm:px-6 sm:py-10">
+        <div className="w-full max-w-[420px] space-y-4">
+          <div className="text-center space-y-2.5">
+            <div className="mx-auto inline-flex items-center gap-1.5 rounded-full border border-[#71C9CE] bg-[#E3FDFD] dark:bg-[#162a3d] dark:border-[#2c5270] px-3 py-1 text-xs font-semibold text-[#007ACC] dark:text-[#A6E3E9] shadow-xs">
+              <Shield className="h-3.5 w-3.5 text-[#007ACC] dark:text-[#71C9CE]" />
+              <span>Account Created</span>
+            </div>
+            <div className="flex items-center justify-center gap-2.5">
+              <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-[#007ACC] text-white shadow-md shadow-[#007ACC]/25">
+                <KeyRound className="h-5 w-5 sm:h-6 sm:w-6" />
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
+                Minivers
+              </h1>
+            </div>
+          </div>
 
+          <Card className="border border-[#CBF1F5] dark:border-[#1e364d] bg-white dark:bg-[#111d2e] shadow-xl shadow-[#007ACC]/5 rounded-2xl overflow-hidden">
+            <CardHeader className="text-center pb-2">
+              <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50 dark:bg-emerald-900/30">
+                <CheckCircle2 className="h-7 w-7 text-emerald-500" />
+              </div>
+              <CardTitle className="text-lg sm:text-xl font-bold text-foreground">
+                Your Access Code
+              </CardTitle>
+              <CardDescription className="text-xs sm:text-sm text-muted-foreground">
+                This is the <strong>only</strong> way to sign in. Save it somewhere safe — it won't be shown again.
+              </CardDescription>
+            </CardHeader>
+
+            <CardContent className="pt-2 space-y-4">
+              {/* Code display */}
+              <div className="flex items-center gap-2 rounded-xl border-2 border-[#007ACC]/40 bg-[#E3FDFD]/60 dark:bg-[#162a3d] px-4 py-3">
+                <span className="flex-1 text-center text-2xl font-mono font-extrabold tracking-[0.25em] text-[#007ACC] dark:text-[#A6E3E9] select-all">
+                  {accessCode}
+                </span>
+                <button
+                  type="button"
+                  onClick={handleCopy}
+                  className="shrink-0 rounded-lg p-1.5 text-[#007ACC] hover:bg-[#CBF1F5] dark:hover:bg-[#234563] transition-colors"
+                  aria-label="Copy access code"
+                >
+                  {copied ? (
+                    <CheckCircle2 className="h-5 w-5 text-emerald-500" />
+                  ) : (
+                    <Copy className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
+
+              <p className="text-[11px] sm:text-xs text-center text-amber-600 dark:text-amber-400 font-medium">
+                ⚠️ Copy and store this code now. You cannot recover it later.
+              </p>
+
+              <Button
+                type="button"
+                onClick={() => navigate("/dashboard")}
+                className="w-full bg-[#007ACC] hover:bg-[#0066b8] text-white font-semibold shadow-md shadow-[#007ACC]/25 cursor-pointer h-11 text-base sm:text-sm"
+              >
+                Go to Dashboard
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Registration form ──────────────────────────────────────────────────────
   return (
     <div className="flex min-h-[calc(100svh-4rem)] w-full items-center justify-center bg-gradient-to-b from-[#E3FDFD]/40 via-background to-[#CBF1F5]/20 dark:from-[#0b131e] dark:via-background dark:to-[#162a3d] px-3.5 py-6 sm:px-6 sm:py-10">
       <div className="w-full max-w-[420px] space-y-4">
@@ -80,7 +165,7 @@ export default function SignUpForm({
         <div className="text-center space-y-2.5">
           <div className="mx-auto inline-flex items-center gap-1.5 rounded-full border border-[#71C9CE] bg-[#E3FDFD] dark:bg-[#162a3d] dark:border-[#2c5270] px-3 py-1 text-xs font-semibold text-[#007ACC] dark:text-[#A6E3E9] shadow-xs">
             <Shield className="h-3.5 w-3.5 text-[#007ACC] dark:text-[#71C9CE]" />
-            <span>Personal Details & Vault</span>
+            <span>Personal Details &amp; Vault</span>
           </div>
 
           <div className="flex items-center justify-center gap-2.5">
@@ -93,7 +178,7 @@ export default function SignUpForm({
           </div>
 
           <p className="text-xs sm:text-sm text-muted-foreground px-2">
-            Create an account to start collecting and saving your personal details.
+            Create an account — a unique access code will be generated for you.
           </p>
         </div>
 
@@ -209,9 +294,7 @@ export default function SignUpForm({
                           onClick={() => setShowPassword(!showPassword)}
                           className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-[#007ACC] dark:hover:text-[#A6E3E9] cursor-pointer focus:outline-none transition-colors"
                           tabIndex={-1}
-                          aria-label={
-                            showPassword ? "Hide password" : "Show password"
-                          }
+                          aria-label={showPassword ? "Hide password" : "Show password"}
                         >
                           {showPassword ? (
                             <EyeOff className="h-4 w-4" />
@@ -231,7 +314,7 @@ export default function SignUpForm({
                     </div>
                   )}
                 </form.Field>
-                </div>
+              </div>
 
               {/* Submit Button */}
               <form.Subscribe>
@@ -248,7 +331,7 @@ export default function SignUpForm({
                       </>
                     ) : (
                       <>
-                        Create Account
+                        Create Account &amp; Get Code
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </>
                     )}
@@ -270,7 +353,7 @@ export default function SignUpForm({
               onClick={onSwitchToSignIn}
               className="w-full border-[#A6E3E9] text-[#007ACC] hover:bg-[#CBF1F5]/50 dark:border-[#2c5270] dark:text-[#A6E3E9] dark:hover:bg-[#1e3a54] font-medium cursor-pointer"
             >
-              Sign In to existing account
+              Sign In with access code
             </Button>
           </CardFooter>
         </Card>

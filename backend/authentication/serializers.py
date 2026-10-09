@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
-from django.contrib.auth.hashers import check_password
 
 from .models import UserDetails
 
@@ -40,8 +39,8 @@ class UserDetailsSerializer(serializers.ModelSerializer):
     """Read-only serializer – never exposes the password hash."""
     class Meta:
         model = UserDetails
-        fields = ('id', 'name', 'email', 'created_at', 'updated_at')
-        read_only_fields = ('id', 'created_at', 'updated_at')
+        fields = ('id', 'name', 'email', 'access_code', 'created_at', 'updated_at')
+        read_only_fields = ('id', 'access_code', 'created_at', 'updated_at')
 
 
 class UserDetailsRegisterSerializer(serializers.ModelSerializer):
@@ -57,24 +56,20 @@ class UserDetailsRegisterSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        # model.save() will hash the password automatically
+        # model.save() will hash the password and generate the access_code automatically
         return UserDetails.objects.create(**validated_data)
 
 
 class UserDetailsLoginSerializer(serializers.Serializer):
-    email = serializers.EmailField(required=True)
-    password = serializers.CharField(required=True, write_only=True)
+    """Sign-in using only the special access code."""
+    access_code = serializers.CharField(required=True, write_only=True)
 
     def validate(self, attrs):
-        email = attrs.get('email')
-        password = attrs.get('password')
+        access_code = attrs.get('access_code', '').strip().upper()
         try:
-            user = UserDetails.objects.get(email=email)
+            user = UserDetails.objects.get(access_code=access_code)
         except UserDetails.DoesNotExist:
-            raise serializers.ValidationError({"email": "No account found with this email."})
-
-        if not check_password(password, user.password):
-            raise serializers.ValidationError({"password": "Incorrect password."})
+            raise serializers.ValidationError({"access_code": "Invalid access code. Please check and try again."})
 
         attrs['user'] = user
         return attrs

@@ -70,7 +70,8 @@ class LogoutView(APIView):
 class UserDetailsRegisterView(APIView):
     """
     POST /api/auth/user-details/register/
-    Body: { name, email, password, password2 }
+    Body: { name, email, password }
+    Returns the newly generated access_code — user must save this to sign in.
     """
     permission_classes = (AllowAny,)
 
@@ -80,6 +81,7 @@ class UserDetailsRegisterView(APIView):
             user = serializer.save()
             return Response({
                 "message": "Account created successfully.",
+                "access_code": user.access_code,
                 "user": UserDetailsSerializer(user).data,
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
