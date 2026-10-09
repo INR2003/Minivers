@@ -24,7 +24,7 @@ class UserDetails(models.Model):
     phone = models.CharField(max_length=30, blank=True, default="")
     date_of_birth = models.DateField(null=True, blank=True)
     about = models.TextField(blank=True, default="")
-    avatar_url = models.URLField(blank=True, default="")
+    avatar_url = models.TextField(blank=True, default="")  # stores base64 data URL or remote URL
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
