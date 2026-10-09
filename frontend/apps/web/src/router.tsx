@@ -4,6 +4,7 @@ import AppShell from "./app-shell";
 import Dashboard from "./routes/dashboard";
 import Home from "./routes/home";
 import Login from "./routes/login";
+import Profile from "./routes/profile";
 
 function NotFound() {
   return (
@@ -23,6 +24,7 @@ export const router = createBrowserRouter([
       { path: "home", element: <Home /> },
       { path: "login", element: <Login /> },
       { path: "dashboard", element: <Dashboard /> },
+      { path: "profile", element: <Profile /> },
       { path: "*", element: <NotFound /> },
     ],
   },

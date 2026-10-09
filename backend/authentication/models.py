@@ -13,10 +13,19 @@ def _generate_access_code():
 
 
 class UserDetails(models.Model):
+    # Core
     name = models.CharField(max_length=150)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)  # stored as hashed value
     access_code = models.CharField(max_length=20, unique=True, blank=True)
+
+    # Extended profile
+    display_name = models.CharField(max_length=100, blank=True, default="")
+    phone = models.CharField(max_length=30, blank=True, default="")
+    date_of_birth = models.DateField(null=True, blank=True)
+    about = models.TextField(blank=True, default="")
+    avatar_url = models.URLField(blank=True, default="")
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

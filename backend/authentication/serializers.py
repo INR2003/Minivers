@@ -39,8 +39,25 @@ class UserDetailsSerializer(serializers.ModelSerializer):
     """Read-only serializer – never exposes the password hash."""
     class Meta:
         model = UserDetails
-        fields = ('id', 'name', 'email', 'access_code', 'created_at', 'updated_at')
+        fields = (
+            'id', 'name', 'email', 'access_code',
+            'display_name', 'phone', 'date_of_birth', 'about', 'avatar_url',
+            'created_at', 'updated_at',
+        )
         read_only_fields = ('id', 'access_code', 'created_at', 'updated_at')
+
+
+class ProfileUpdateSerializer(serializers.ModelSerializer):
+    """Allows updating editable profile fields only."""
+    class Meta:
+        model = UserDetails
+        fields = ('name', 'display_name', 'phone', 'date_of_birth', 'about', 'avatar_url')
+
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save(update_fields=list(validated_data.keys()) + ['updated_at'])
+        return instance
 
 
 class UserDetailsRegisterSerializer(serializers.ModelSerializer):

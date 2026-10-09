@@ -12,6 +12,7 @@ from .serializers import (
     UserDetailsSerializer,
     UserDetailsRegisterSerializer,
     UserDetailsLoginSerializer,
+    ProfileUpdateSerializer,
 )
 
 
@@ -30,7 +31,7 @@ class RegisterView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        
+
         refresh = RefreshToken.for_user(user)
         return Response({
             "user": UserSerializer(user).data,
@@ -90,7 +91,7 @@ class UserDetailsRegisterView(APIView):
 class UserDetailsLoginView(APIView):
     """
     POST /api/auth/user-details/login/
-    Body: { email, password }
+    Body: { access_code }
     """
     permission_classes = (AllowAny,)
 
@@ -114,3 +115,63 @@ class UserDetailsListView(generics.ListAPIView):
     serializer_class = UserDetailsSerializer
     permission_classes = (IsAuthenticated,)
 
+
+class UserDetailsProfileView(APIView):
+    """
+    GET   /api/auth/user-details/<id>/profile/  — fetch full profile
+    PATCH /api/auth/user-details/<id>/profile/  — update editable fields
+    """
+    permission_classes = (AllowAny,)
+
+    def _get_user(self, pk):
+        from .models import UserDetails
+        try:
+            return UserDetails.objects.get(pk=pk)
+        except UserDetails.DoesNotExist:
+            return None
+
+    def get(self, request, pk):
+        user = self._get_user(pk)
+        if user is None:
+            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+        return Response(UserDetailsSerializer(user).data)
+
+    def patch(self, request, pk):
+        user = self._get_user(pk)
+        if user is None:
+            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+        serializer = ProfileUpdateSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            updated = serializer.save()
+            return Response({
+                "message": "Profile updated successfully.",
+                "user": UserDetailsSerializer(updated).data,
+            })
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ResetAccessCodeView(APIView):
+    """
+    POST /api/auth/user-details/<id>/reset-code/
+    Generates a brand-new 5-char access code. The old code becomes invalid immediately.
+    """
+    permission_classes = (AllowAny,)
+
+    def post(self, request, pk):
+        from .models import UserDetails, _generate_access_code
+        try:
+            user = UserDetails.objects.get(pk=pk)
+        except UserDetails.DoesNotExist:
+            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        new_code = _generate_access_code()
+        while UserDetails.objects.exclude(pk=pk).filter(access_code=new_code).exists():
+            new_code = _generate_access_code()
+
+        user.access_code = new_code
+        user.save(update_fields=["access_code", "updated_at"])
+        return Response({
+            "message": "Access code reset successfully.",
+            "access_code": new_code,
+            "user": UserDetailsSerializer(user).data,
+        })

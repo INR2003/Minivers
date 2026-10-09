@@ -10,6 +10,11 @@ export interface UserDetails {
   name: string;
   email: string;
   access_code: string;
+  display_name?: string;
+  phone?: string;
+  date_of_birth?: string | null;
+  about?: string;
+  avatar_url?: string;
   created_at: string;
   updated_at: string;
 }
@@ -25,6 +30,11 @@ export interface RegisterResponse {
   user: UserDetails;
 }
 
+export interface ProfileResponse {
+  message: string;
+  user: UserDetails;
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
     headers: { "Content-Type": "application/json" },
@@ -34,7 +44,6 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const data = await res.json();
 
   if (!res.ok) {
-    // Extract first error message from DRF error response
     const firstError =
       data?.access_code?.[0] ||
       data?.email?.[0] ||
@@ -42,6 +51,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
       data?.name?.[0] ||
       data?.non_field_errors?.[0] ||
       data?.detail ||
+      data?.error ||
       "Request failed";
     throw new Error(firstError);
   }
@@ -63,6 +73,25 @@ export const api = {
       request<RegisterResponse>("/user-details/register/", {
         method: "POST",
         body: JSON.stringify({ name, email, password }),
+      }),
+  },
+
+  profile: {
+    /** Fetch full profile by user id. */
+    get: (id: number) =>
+      request<UserDetails>(`/user-details/${id}/profile/`),
+
+    /** Update editable profile fields (partial PATCH). */
+    update: (id: number, data: Partial<Omit<UserDetails, "id" | "email" | "access_code" | "created_at" | "updated_at">>) =>
+      request<ProfileResponse>(`/user-details/${id}/profile/`, {
+        method: "PATCH",
+        body: JSON.stringify(data),
+      }),
+
+    /** Generate a new access code — old one becomes invalid. */
+    resetCode: (id: number) =>
+      request<{ message: string; access_code: string; user: UserDetails }>(`/user-details/${id}/reset-code/`, {
+        method: "POST",
       }),
   },
 };
