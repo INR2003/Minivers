@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     
     # Local apps
     'authentication',
+    'modules',
 ]
 
 MIDDLEWARE = [
@@ -109,6 +110,10 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # REST Framework Configuration
@@ -149,8 +154,11 @@ CORS_ALLOW_HEADERS = [
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
+    'x-user-id',
+    'x-access-code',
 ]
 
-# In development, allow all origins (disable in production)
+# In development, allow all origins and headers
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
+    CORS_ALLOW_ALL_HEADERS = True
