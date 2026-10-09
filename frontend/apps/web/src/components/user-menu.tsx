@@ -56,17 +56,7 @@ export default function UserMenu() {
             My Vault Account
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            className="text-xs text-muted-foreground cursor-default"
-          >
-            {currentUser.email}
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            className="text-xs cursor-pointer hover:text-[#007ACC]"
-            onClick={() => navigate("/profile")}
-          >
-            View & Edit Profile
-          </DropdownMenuItem>
+
           <DropdownMenuSeparator />
           <DropdownMenuItem
             variant="destructive"
