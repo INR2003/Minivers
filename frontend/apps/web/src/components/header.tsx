@@ -48,7 +48,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#CBF1F5] dark:border-[#1e364d] bg-white/95 dark:bg-[#0b131e]/95 backdrop-blur-md">
-      <div className="flex items-center justify-between px-3 sm:px-6 py-2.5 max-w-6xl mx-auto">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-3 py-2.5 sm:px-6">
         <div className="flex items-center gap-3 sm:gap-6 min-w-0">
           <NavLink
             to="/"
@@ -62,14 +62,14 @@ export default function Header() {
           </NavLink>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex gap-1.5 sm:gap-2 text-xs font-semibold">
+          <nav className="hidden gap-1 text-xs font-semibold lg:flex">
             {desktopLinks.map(({ to, label }) => {
               const isActive = location.pathname + location.search === to;
               return (
                 <NavLink
                   key={to}
                   to={to}
-                  className={`px-3 py-1.5 rounded-lg transition-colors ${
+                  className={`px-2.5 py-1.5 rounded-lg transition-colors ${
                     isActive
                       ? "bg-[#E3FDFD] text-[#007ACC] font-bold dark:bg-[#162a3d] dark:text-[#A6E3E9]"
                       : "text-muted-foreground hover:text-foreground hover:bg-[#E3FDFD]/50 dark:hover:bg-[#162a3d]/50"
@@ -83,7 +83,7 @@ export default function Header() {
         </div>
 
         {/* Right side controls */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
           <ModeToggle />
           <UserMenu />
 
@@ -91,7 +91,7 @@ export default function Header() {
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 md:hidden text-foreground ml-1"
+            className="ml-1 h-8 w-8 text-foreground lg:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle navigation menu"
           >
@@ -102,7 +102,7 @@ export default function Header() {
 
       {/* Mobile Drawer Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-[#CBF1F5] dark:border-[#1e364d] bg-background/98 backdrop-blur-md px-4 py-3 space-y-1 max-h-[80vh] overflow-y-auto animate-in slide-in-from-top-2 duration-150">
+        <div className="lg:hidden border-t border-[#CBF1F5] dark:border-[#1e364d] bg-background/98 backdrop-blur-md px-4 py-3 space-y-1 max-h-[calc(100svh-3.5rem)] overflow-y-auto animate-in slide-in-from-top-2 duration-150">
           <div className="text-[11px] font-bold text-muted-foreground uppercase px-2 py-1">
             Minivers Modules
           </div>

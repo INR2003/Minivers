@@ -115,7 +115,7 @@ function Lightbox({
         src={src}
         alt={name}
         onClick={(e) => e.stopPropagation()}
-        className="max-h-[88svh] max-w-[92vw] rounded-2xl object-contain shadow-2xl ring-1 ring-white/20 select-none"
+        className="max-h-[88svh] max-w-full rounded-2xl object-contain shadow-2xl ring-1 ring-white/20 select-none"
         draggable={false}
       />
 
@@ -437,10 +437,10 @@ export default function ProfilePage() {
   const liveAvatar = editing ? draft.avatar_url : (user.avatar_url ?? "");
 
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-6 sm:py-8 space-y-6">
+    <div className="container mx-auto min-w-0 max-w-3xl px-3 py-4 sm:space-y-6 sm:px-4 sm:py-8 space-y-4">
 
       {/* Top bar */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <button
           onClick={() => navigate("/dashboard")}
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-[#007ACC] transition-colors"
@@ -452,11 +452,11 @@ export default function ProfilePage() {
             <Pencil className="h-3.5 w-3.5" /> Edit Profile
           </Button>
         ) : (
-          <div className="flex gap-2">
-            <Button size="sm" variant="outline" onClick={cancelEdit} className="gap-1.5 cursor-pointer border-[#CBF1F5] dark:border-[#234563]">
+          <div className="flex w-full gap-2 sm:w-auto">
+            <Button size="sm" variant="outline" onClick={cancelEdit} className="flex-1 gap-1.5 cursor-pointer border-[#CBF1F5] dark:border-[#234563] sm:flex-none">
               <X className="h-3.5 w-3.5" /> Cancel
             </Button>
-            <Button size="sm" onClick={saveProfile} disabled={saving} className="gap-1.5 bg-[#007ACC] hover:bg-[#0066b8] text-white cursor-pointer">
+            <Button size="sm" onClick={saveProfile} disabled={saving} className="flex-1 gap-1.5 bg-[#007ACC] text-white hover:bg-[#0066b8] cursor-pointer sm:flex-none">
               {saving ? <RefreshCw className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
               {saving ? "Saving…" : "Save Changes"}
             </Button>
@@ -465,7 +465,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Hero — avatar + info */}
-      <div className="flex items-center gap-5 rounded-2xl border border-[#CBF1F5] dark:border-[#1e364d] bg-gradient-to-r from-[#E3FDFD] via-white to-[#CBF1F5]/40 dark:from-[#111d2e] dark:via-[#0b131e] dark:to-[#162a3d] p-5 sm:p-6">
+      <div className="flex min-w-0 items-start gap-4 rounded-2xl border border-[#CBF1F5] dark:border-[#1e364d] bg-gradient-to-r from-[#E3FDFD] via-white to-[#CBF1F5]/40 p-4 dark:from-[#111d2e] dark:via-[#0b131e] dark:to-[#162a3d] sm:items-center sm:gap-5 sm:p-6">
         <AvatarPicker
           currentSrc={liveAvatar}
           name={user.name}

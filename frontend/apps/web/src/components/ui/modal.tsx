@@ -42,7 +42,7 @@ export function Modal({
       <div
         role="dialog"
         aria-modal="true"
-        className={`relative z-10 w-full ${maxWidth} rounded-2xl bg-card border border-border shadow-2xl p-4 sm:p-6 transition-all animate-in zoom-in-95 max-h-[92vh] overflow-y-auto my-auto`}
+        className={`relative z-10 w-full min-w-0 ${maxWidth} rounded-2xl bg-card border border-border shadow-2xl p-4 sm:p-6 transition-all animate-in zoom-in-95 max-h-[calc(100svh-1.5rem)] sm:max-h-[92vh] overflow-y-auto my-auto`}
       >
         <div className="flex items-start justify-between pb-3 border-b border-border mb-4">
           <div>

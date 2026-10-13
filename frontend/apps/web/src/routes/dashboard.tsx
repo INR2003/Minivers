@@ -84,7 +84,7 @@ export default function Dashboard() {
   const userName = currentUser?.name || "Iyyanar";
 
   return (
-    <div className="container mx-auto max-w-6xl px-3 sm:px-6 py-4 sm:py-6 space-y-5">
+    <div className="container mx-auto min-w-0 max-w-6xl px-3 py-4 sm:space-y-5 sm:px-6 sm:py-6 space-y-4">
       {/* Top Banner Header */}
       <div className="rounded-2xl border border-[#CBF1F5] dark:border-[#1e364d] bg-gradient-to-r from-[#E3FDFD] via-white to-[#CBF1F5]/40 dark:from-[#111d2e] dark:via-[#0b131e] dark:to-[#162a3d] p-4 sm:p-6 shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -152,7 +152,7 @@ export default function Dashboard() {
       </div>
 
       {/* Active Module Content */}
-      <div className="transition-all animate-in fade-in-50 duration-200">
+      <div className="min-w-0 transition-all animate-in fade-in-50 duration-200">
         {currentTab === "overview" && <DashboardOverview onSelectModule={setTab} />}
         {currentTab === "accounts" && <BankAccountsModule />}
         {currentTab === "expenses" && <ExpensesModule />}

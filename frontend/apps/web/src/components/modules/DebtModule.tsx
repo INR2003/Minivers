@@ -121,7 +121,7 @@ export default function DebtModule() {
   const netBalance = totalLentRem - totalBorrowedRem;
 
   return (
-    <div className="space-y-6">
+    <div className="w-full min-w-0 space-y-4 sm:space-y-6">
       {/* 3 Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Card className="p-4 border-rose-200 dark:border-rose-900/40 bg-gradient-to-br from-rose-500/10 via-background to-transparent">
@@ -256,8 +256,8 @@ export default function DebtModule() {
                         )}
                       </div>
                       <div>
-                        <h4 className="font-bold text-sm text-foreground">{debt.person_name}</h4>
-                        <div className="flex items-center gap-1.5 mt-0.5">
+                        <h4 className="break-words font-bold text-sm text-foreground">{debt.person_name}</h4>
+                        <div className="flex flex-wrap items-center gap-1.5 mt-0.5">
                           <Badge
                             variant={isBorrowed ? "destructive" : "success"}
                             className="text-[9px] uppercase py-0"
@@ -265,7 +265,7 @@ export default function DebtModule() {
                             {isBorrowed ? "Borrowed (Owe)" : "Lent (Due)"}
                           </Badge>
                           {debt.contact_info && (
-                            <span className="text-[11px] text-muted-foreground">
+                            <span className="break-words text-[11px] text-muted-foreground">
                               • {debt.contact_info}
                             </span>
                           )}

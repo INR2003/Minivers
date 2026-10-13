@@ -93,7 +93,7 @@ export default function AttendanceModule() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="w-full min-w-0 space-y-4 sm:space-y-6">
       {/* Top Banner with office & gym quick check-ins */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Office Card */}
@@ -179,10 +179,10 @@ export default function AttendanceModule() {
 
       {/* Tabs Switcher and Log Button */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <div className="flex bg-muted p-1 rounded-xl">
+        <div className="flex max-w-full overflow-x-auto bg-muted p-1 rounded-xl">
           <button
             onClick={() => setActiveTab("office")}
-            className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
+            className={`flex shrink-0 items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
               activeTab === "office"
                 ? "bg-background text-foreground shadow-xs"
                 : "text-muted-foreground hover:text-foreground"
@@ -192,7 +192,7 @@ export default function AttendanceModule() {
           </button>
           <button
             onClick={() => setActiveTab("gym")}
-            className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
+            className={`flex shrink-0 items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
               activeTab === "gym"
                 ? "bg-background text-foreground shadow-xs"
                 : "text-muted-foreground hover:text-foreground"

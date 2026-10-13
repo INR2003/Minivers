@@ -15,9 +15,11 @@ function RoutedLayout() {
       disableTransitionOnChange
       storageKey="vite-ui-theme"
     >
-      <div className="grid h-svh grid-rows-[auto_1fr]">
+      <div className="grid min-h-svh min-w-0 grid-rows-[auto_1fr]">
         <Header />
-        <Outlet />
+        <main className="min-w-0">
+          <Outlet />
+        </main>
       </div>
       <Toaster richColors />
     </ThemeProvider>

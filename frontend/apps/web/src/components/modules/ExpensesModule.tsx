@@ -101,12 +101,12 @@ export default function ExpensesModule() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="w-full min-w-0 space-y-4 sm:space-y-6">
       {/* Budget & Summary Card */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="md:col-span-2 border-emerald-200 dark:border-emerald-900/40 bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-transparent">
           <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between">
               <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
                 Monthly Spending & Budget
               </span>
@@ -114,7 +114,7 @@ export default function ExpensesModule() {
                 ₹{totalSpent.toLocaleString("en-IN")} / ₹{monthlyBudget.toLocaleString("en-IN")} ({budgetPct}%)
               </span>
             </div>
-            <CardTitle className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            <CardTitle className="text-xl font-extrabold tracking-tight sm:text-3xl">
               ₹{totalSpent.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
             </CardTitle>
           </CardHeader>
@@ -128,7 +128,7 @@ export default function ExpensesModule() {
                 style={{ width: `${budgetPct}%` }}
               />
             </div>
-            <div className="flex items-center justify-between text-[11px] text-muted-foreground pt-1">
+            <div className="flex flex-col gap-1 pt-1 text-[11px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
               <span>{budgetPct < 80 ? "Well within monthly budget ✓" : "Approaching monthly limit ⚠️"}</span>
               <span>Remaining: ₹{Math.max(0, monthlyBudget - totalSpent).toLocaleString("en-IN")}</span>
             </div>

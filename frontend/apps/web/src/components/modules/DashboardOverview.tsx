@@ -55,7 +55,7 @@ export default function DashboardOverview({ onSelectModule }: DashboardOverviewP
   const documents = data?.recent_documents || [];
 
   return (
-    <div className="space-y-6">
+    <div className="w-full min-w-0 space-y-4 sm:space-y-6">
       {/* 4 Primary Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* 1. Total Balance */}
@@ -63,7 +63,7 @@ export default function DashboardOverview({ onSelectModule }: DashboardOverviewP
           onClick={() => onSelectModule("accounts")}
           className="cursor-pointer border-blue-200 dark:border-blue-900/50 hover:shadow-md transition-all bg-gradient-to-br from-blue-500/10 via-card to-transparent"
         >
-          <CardContent className="p-5">
+          <CardContent className="min-w-0 p-4 sm:p-5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
                 Total Balance
@@ -72,7 +72,7 @@ export default function DashboardOverview({ onSelectModule }: DashboardOverviewP
                 <Wallet className="h-4 w-4" />
               </div>
             </div>
-            <div className="text-2xl sm:text-3xl font-black text-foreground mt-2 tracking-tight">
+            <div className="text-xl font-black text-foreground mt-2 tracking-tight sm:text-2xl">
               ₹{(summary?.total_balance || 0).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
             </div>
             <p className="text-[11px] text-muted-foreground mt-1 flex items-center justify-between">
@@ -87,7 +87,7 @@ export default function DashboardOverview({ onSelectModule }: DashboardOverviewP
           onClick={() => onSelectModule("expenses")}
           className="cursor-pointer border-emerald-200 dark:border-emerald-900/50 hover:shadow-md transition-all bg-gradient-to-br from-emerald-500/10 via-card to-transparent"
         >
-          <CardContent className="p-5">
+          <CardContent className="min-w-0 p-4 sm:p-5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
                 Month's Expenses
@@ -96,7 +96,7 @@ export default function DashboardOverview({ onSelectModule }: DashboardOverviewP
                 <Receipt className="h-4 w-4" />
               </div>
             </div>
-            <div className="text-2xl sm:text-3xl font-black text-foreground mt-2 tracking-tight">
+            <div className="text-xl font-black text-foreground mt-2 tracking-tight sm:text-2xl">
               ₹{(summary?.monthly_expenses || 0).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
             </div>
             <div className="text-[11px] text-muted-foreground mt-1 flex items-center justify-between">

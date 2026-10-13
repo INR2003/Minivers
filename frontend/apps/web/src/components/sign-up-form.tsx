@@ -88,8 +88,8 @@ export default function SignUpForm({
   // ── Access Code reveal screen ─────────────────────────────────────────────
   if (accessCode) {
     return (
-      <div className="flex min-h-[calc(100svh-4rem)] w-full items-center justify-center bg-gradient-to-b from-[#E3FDFD]/40 via-background to-[#CBF1F5]/20 dark:from-[#0b131e] dark:via-background dark:to-[#162a3d] px-3.5 py-6 sm:px-6 sm:py-10">
-        <div className="w-full max-w-[420px] space-y-4">
+      <div className="box-border flex min-h-[calc(100svh-4rem)] w-full min-w-0 items-center justify-center bg-gradient-to-b from-[#E3FDFD]/40 via-background to-[#CBF1F5]/20 px-3.5 py-6 dark:from-[#0b131e] dark:via-background dark:to-[#162a3d] sm:px-6 sm:py-10">
+        <div className="w-full min-w-0 max-w-[420px] space-y-4">
           <div className="text-center space-y-2.5">
             <div className="mx-auto inline-flex items-center gap-1.5 rounded-full border border-[#71C9CE] bg-[#E3FDFD] dark:bg-[#162a3d] dark:border-[#2c5270] px-3 py-1 text-xs font-semibold text-[#007ACC] dark:text-[#A6E3E9] shadow-xs">
               <Shield className="h-3.5 w-3.5 text-[#007ACC] dark:text-[#71C9CE]" />
@@ -159,8 +159,8 @@ export default function SignUpForm({
 
   // ── Registration form ──────────────────────────────────────────────────────
   return (
-    <div className="flex min-h-[calc(100svh-4rem)] w-full items-center justify-center bg-gradient-to-b from-[#E3FDFD]/40 via-background to-[#CBF1F5]/20 dark:from-[#0b131e] dark:via-background dark:to-[#162a3d] px-3.5 py-6 sm:px-6 sm:py-10">
-      <div className="w-full max-w-[420px] space-y-4">
+    <div className="box-border flex min-h-[calc(100svh-4rem)] w-full min-w-0 items-center justify-center bg-gradient-to-b from-[#E3FDFD]/40 via-background to-[#CBF1F5]/20 px-3.5 py-6 dark:from-[#0b131e] dark:via-background dark:to-[#162a3d] sm:px-6 sm:py-10">
+      <div className="w-full min-w-0 max-w-[420px] space-y-4">
         {/* Brand & Value Header */}
         <div className="text-center space-y-2.5">
           <div className="mx-auto inline-flex items-center gap-1.5 rounded-full border border-[#71C9CE] bg-[#E3FDFD] dark:bg-[#162a3d] dark:border-[#2c5270] px-3 py-1 text-xs font-semibold text-[#007ACC] dark:text-[#A6E3E9] shadow-xs">

@@ -44,7 +44,7 @@ export default function UserMenu() {
           />
         }
       >
-        {currentUser.name}
+        <span className="block max-w-12 truncate sm:max-w-40">{currentUser.name}</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-card border-[#CBF1F5] dark:border-[#1e364d] min-w-[200px]">
         <DropdownMenuGroup>

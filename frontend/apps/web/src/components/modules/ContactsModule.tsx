@@ -114,7 +114,7 @@ export default function ContactsModule() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="w-full min-w-0 space-y-4 sm:space-y-6">
       {/* Search and Action Bar */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2 flex-1 max-w-sm">
@@ -183,7 +183,7 @@ export default function ContactsModule() {
             const bdayCountdown = getUpcomingCountdown(contact.birthday);
             return (
               <Card key={contact.id} className="relative overflow-hidden hover:shadow-md transition-shadow">
-                <CardContent className="p-4 sm:p-5">
+                <CardContent className="min-w-0 p-4 sm:p-5">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
                       <div
@@ -192,8 +192,8 @@ export default function ContactsModule() {
                       >
                         {contact.name.charAt(0).toUpperCase()}
                       </div>
-                      <div>
-                        <h4 className="font-bold text-sm text-foreground flex items-center gap-1.5">
+                      <div className="min-w-0">
+                        <h4 className="break-words font-bold text-sm text-foreground flex items-center gap-1.5">
                           {contact.name}
                         </h4>
                         <Badge variant="outline" className="text-[10px] capitalize py-0 mt-0.5">
@@ -231,7 +231,7 @@ export default function ContactsModule() {
                   <div className="mt-4 space-y-1.5 text-xs">
                     {contact.phone && (
                       <div className="flex items-center justify-between text-muted-foreground">
-                        <span className="flex items-center gap-1.5">
+                        <span className="min-w-0 break-words flex items-center gap-1.5">
                           <Phone className="h-3.5 w-3.5 text-[#007ACC]" /> {contact.phone}
                         </span>
                         <a

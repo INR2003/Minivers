@@ -100,7 +100,7 @@ export default function NotesModule() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="w-full min-w-0 space-y-4 sm:space-y-6">
       {/* Search and Action Bar */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2 flex-1 max-w-sm">
@@ -174,7 +174,7 @@ export default function NotesModule() {
                 note.is_pinned ? "border-[#007ACC]/50 dark:border-[#007ACC]/40 bg-[#007ACC]/5" : ""
               }`}
             >
-              <CardContent className="p-4 sm:p-5 flex flex-col justify-between h-full space-y-3">
+              <CardContent className="h-full min-w-0 p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
                   <div className="flex items-start justify-between gap-2">
                     <Badge variant="outline" className="text-[10px]">
@@ -206,7 +206,7 @@ export default function NotesModule() {
                     </div>
                   </div>
 
-                  <h4 className="font-bold text-sm text-foreground mt-2">{note.title}</h4>
+                  <h4 className="break-words font-bold text-sm text-foreground mt-2">{note.title}</h4>
                   <p className="text-xs text-muted-foreground mt-1 whitespace-pre-wrap line-clamp-6 leading-relaxed">
                     {note.content}
                   </p>

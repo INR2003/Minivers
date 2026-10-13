@@ -99,7 +99,7 @@ export default function VaultModule() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="w-full min-w-0 space-y-4 sm:space-y-6">
       {/* Encryption Security Banner */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-cyan-500/5 to-teal-500/10 border border-emerald-200 dark:border-emerald-900/40">
         <div className="flex items-center gap-3">
