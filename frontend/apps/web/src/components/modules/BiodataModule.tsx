@@ -129,7 +129,7 @@ export default function BiodataModule() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="w-full min-w-0 space-y-4 sm:space-y-6">
       {/* Profile Header Header Banner */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#007ACC]/15 via-teal-500/10 to-sky-500/10 border border-[#007ACC]/20 p-4 sm:p-7">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -145,10 +145,10 @@ export default function BiodataModule() {
                 {currentUser?.email} • Code: <span className="font-mono font-bold text-foreground">{currentUser?.access_code}</span>
               </p>
               <div className="flex flex-wrap gap-1.5 mt-2">
-                <Badge variant="outline" className="text-[10px]">
+                <Badge variant="outline" className="max-w-full whitespace-normal break-words text-[10px]">
                   Blood: {form.blood_group || "O+"}
                 </Badge>
-                <Badge variant="outline" className="text-[10px]">
+                <Badge variant="outline" className="max-w-full whitespace-normal break-words text-[10px]">
                   Location: {form.city || "Chennai"}, {form.country || "India"}
                 </Badge>
               </div>
@@ -164,7 +164,7 @@ export default function BiodataModule() {
               }
             }}
             disabled={updateMutation.isPending}
-            className="bg-[#007ACC] hover:bg-[#0060a0] text-white self-start sm:self-center"
+            className="w-full shrink-0 bg-[#007ACC] text-white hover:bg-[#0060a0] sm:w-auto sm:self-center"
           >
             {isEditing ? (
               <>
@@ -179,15 +179,15 @@ export default function BiodataModule() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div className="grid min-w-0 grid-cols-1 items-stretch gap-4 sm:gap-5 md:grid-cols-2">
         {/* Basic Personal Details */}
-        <Card>
+        <Card className="h-full min-w-0">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
-              <User className="h-4 w-4 text-[#007ACC]" /> Personal Details
+            <CardTitle className="flex min-w-0 items-center gap-2 text-sm font-bold">
+              <User className="h-4 w-4 shrink-0 text-[#007ACC]" /> Personal Details
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3 text-xs">
+          <CardContent className="min-w-0 flex-1 space-y-3 text-xs">
             {isEditing ? (
               <div className="space-y-3">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -238,30 +238,30 @@ export default function BiodataModule() {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div>
                   <span className="text-muted-foreground block text-[11px]">Gender</span>
-                  <span className="font-semibold">{form.gender || "Not specified"}</span>
+                  <span className="break-words font-semibold">{form.gender || "Not specified"}</span>
                 </div>
                 <div>
                   <span className="text-muted-foreground block text-[11px]">Blood Group</span>
-                  <span className="font-semibold text-rose-600 dark:text-rose-400">
+                  <span className="break-words font-semibold text-rose-600 dark:text-rose-400">
                     {form.blood_group || "Not specified"}
                   </span>
                 </div>
                 <div>
                   <span className="text-muted-foreground block text-[11px]">City & State</span>
-                  <span className="font-semibold">
+                  <span className="break-words font-semibold">
                     {form.city ? `${form.city}, ${form.state || ""}` : "Not specified"}
                   </span>
                 </div>
                 <div>
                   <span className="text-muted-foreground block text-[11px]">Country</span>
-                  <span className="font-semibold">{form.country || "India"}</span>
+                  <span className="break-words font-semibold">{form.country || "India"}</span>
                 </div>
-                <div className="col-span-2">
+                <div className="sm:col-span-2">
                   <span className="text-muted-foreground block text-[11px]">Address</span>
-                  <span className="font-semibold">{form.address || "Personal private residence"}</span>
+                  <span className="break-words font-semibold">{form.address || "Personal private residence"}</span>
                 </div>
               </div>
             )}
@@ -269,17 +269,17 @@ export default function BiodataModule() {
         </Card>
 
         {/* Skills & Interests */}
-        <Card>
+        <Card className="h-full min-w-0">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-amber-500" /> Skills & Competencies
+            <CardTitle className="flex min-w-0 items-center gap-2 text-sm font-bold">
+              <Sparkles className="h-4 w-4 shrink-0 text-amber-500" /> Skills & Competencies
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4 text-xs">
+          <CardContent className="min-w-0 flex-1 space-y-4 text-xs">
             <div className="flex flex-wrap gap-1.5">
               {(form.skills || []).map((skill, i) => (
-                <Badge key={i} variant="secondary" className="text-xs py-1 px-2.5 flex items-center gap-1">
-                  <span>{skill}</span>
+                <Badge key={i} variant="secondary" className="max-w-full whitespace-normal break-words px-2.5 py-1 text-xs">
+                  <span className="min-w-0 break-words">{skill}</span>
                   {isEditing && (
                     <button
                       type="button"
@@ -294,7 +294,7 @@ export default function BiodataModule() {
             </div>
 
             {isEditing && (
-              <div className="flex gap-2 pt-2">
+              <div className="flex min-w-0 flex-col gap-2 pt-2 sm:flex-row">
                 <Input
                   placeholder="Add skill (e.g. Next.js, Django)"
                   value={newSkill}
@@ -305,9 +305,9 @@ export default function BiodataModule() {
                       handleAddSkill();
                     }
                   }}
-                  className="text-xs"
+                  className="w-full min-w-0 text-xs"
                 />
-                <Button size="sm" onClick={handleAddSkill} type="button">
+                <Button size="sm" onClick={handleAddSkill} type="button" className="w-full shrink-0 sm:w-auto">
                   Add
                 </Button>
               </div>
@@ -316,13 +316,13 @@ export default function BiodataModule() {
         </Card>
 
         {/* Education & Employment */}
-        <Card className="md:col-span-2">
+        <Card className="h-full min-w-0 md:col-span-2">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
-              <Briefcase className="h-4 w-4 text-blue-500" /> Education & Employment Background
+            <CardTitle className="flex min-w-0 items-center gap-2 text-sm font-bold">
+              <Briefcase className="h-4 w-4 shrink-0 text-blue-500" /> Education & Employment Background
             </CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <CardContent className="grid min-w-0 grid-cols-1 gap-4 text-xs md:grid-cols-2">
             {/* Education List */}
             <div className="space-y-2">
               <h4 className="font-bold text-xs text-foreground flex items-center gap-1.5">
@@ -330,9 +330,9 @@ export default function BiodataModule() {
               </h4>
               <div className="space-y-2">
                 {(form.education || []).map((edu, i) => (
-                  <div key={i} className="p-3 rounded-xl border bg-muted/30">
-                    <div className="font-semibold text-foreground">{edu.degree}</div>
-                    <div className="text-[11px] text-muted-foreground">
+                  <div key={i} className="min-w-0 rounded-xl border bg-muted/30 p-3">
+                    <div className="break-words font-semibold text-foreground">{edu.degree}</div>
+                    <div className="break-words text-[11px] text-muted-foreground">
                       {edu.institute} • {edu.year} {edu.grade ? `(${edu.grade})` : ""}
                     </div>
                   </div>
@@ -350,9 +350,9 @@ export default function BiodataModule() {
               </h4>
               <div className="space-y-2">
                 {(form.employment || []).map((emp, i) => (
-                  <div key={i} className="p-3 rounded-xl border bg-muted/30">
-                    <div className="font-semibold text-foreground">{emp.role}</div>
-                    <div className="text-[11px] text-muted-foreground">
+                  <div key={i} className="min-w-0 rounded-xl border bg-muted/30 p-3">
+                    <div className="break-words font-semibold text-foreground">{emp.role}</div>
+                    <div className="break-words text-[11px] text-muted-foreground">
                       {emp.company} • {emp.start} - {emp.end}
                     </div>
                   </div>
@@ -366,14 +366,14 @@ export default function BiodataModule() {
         </Card>
 
         {/* Personal Goals */}
-        <Card className="md:col-span-2">
+        <Card className="h-full min-w-0 md:col-span-2">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
-              <Target className="h-4 w-4 text-rose-500" /> Personal Objectives & Goals
+            <CardTitle className="flex min-w-0 items-center gap-2 text-sm font-bold">
+              <Target className="h-4 w-4 shrink-0 text-rose-500" /> Personal Objectives & Goals
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3 text-xs">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-2">
               {(form.personal_goals || []).map((goal, i) => (
                 <div
                   key={i}
@@ -389,14 +389,14 @@ export default function BiodataModule() {
                       goal.completed ? "text-emerald-500" : "text-muted-foreground"
                     }`}
                   />
-                  <span className={`text-xs font-medium ${goal.completed ? "line-through opacity-80" : ""}`}>
+                  <span className={`min-w-0 break-words text-xs font-medium ${goal.completed ? "line-through opacity-80" : ""}`}>
                     {goal.title}
                   </span>
                 </div>
               ))}
             </div>
 
-            <div className="flex gap-2 pt-2">
+            <div className="flex min-w-0 flex-col gap-2 pt-2 sm:flex-row">
               <Input
                 placeholder="Add new goal (e.g. Save ₹2 Lakhs, Finish Certification)"
                 value={newGoal}
@@ -407,9 +407,9 @@ export default function BiodataModule() {
                     handleAddGoal();
                   }
                 }}
-                className="text-xs"
+                className="w-full min-w-0 text-xs"
               />
-              <Button size="sm" onClick={handleAddGoal} type="button">
+              <Button size="sm" onClick={handleAddGoal} type="button" className="w-full shrink-0 sm:w-auto">
                 <Plus className="h-3.5 w-3.5 mr-1" /> Add Goal
               </Button>
             </div>
