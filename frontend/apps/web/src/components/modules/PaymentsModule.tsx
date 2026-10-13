@@ -147,7 +147,7 @@ export default function PaymentsModule() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <div className="flex bg-muted p-1 rounded-xl">
             <button
               onClick={() => setFilterType("")}
@@ -175,7 +175,7 @@ export default function PaymentsModule() {
             </button>
           </div>
 
-          <Button onClick={() => setIsModalOpen(true)} size="sm" className="bg-[#007ACC] hover:bg-[#0060a0] text-white">
+          <Button onClick={() => setIsModalOpen(true)} size="sm" className="bg-[#007ACC] hover:bg-[#0060a0] text-white shrink-0">
             <Plus className="h-4 w-4 mr-1.5" /> Record Payment
           </Button>
         </div>
@@ -302,7 +302,7 @@ export default function PaymentsModule() {
           }}
           className="space-y-4 text-xs"
         >
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label className="text-xs">Type</Label>
               <select
@@ -330,7 +330,7 @@ export default function PaymentsModule() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label className="text-xs">Person / Organization *</Label>
               <Input
@@ -353,7 +353,7 @@ export default function PaymentsModule() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label className="text-xs">Payment Method</Label>
               <Input
@@ -378,7 +378,7 @@ export default function PaymentsModule() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label className="text-xs">Payment Date</Label>
               <Input

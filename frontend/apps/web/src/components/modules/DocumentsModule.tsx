@@ -171,7 +171,7 @@ export default function DocumentsModule() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Button
             size="sm"
             variant={showTrash ? "default" : "outline"}
@@ -184,7 +184,7 @@ export default function DocumentsModule() {
           <Button
             size="sm"
             onClick={() => setIsUploadOpen(true)}
-            className="bg-[#007ACC] hover:bg-[#0060a0] text-white"
+            className="bg-[#007ACC] hover:bg-[#0060a0] text-white shrink-0"
           >
             <UploadCloud className="h-4 w-4 mr-1.5" /> Upload File
           </Button>
@@ -355,7 +355,7 @@ export default function DocumentsModule() {
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label className="text-xs">Document Title *</Label>
               <Input

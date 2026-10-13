@@ -98,7 +98,7 @@ export default function AttendanceModule() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Office Card */}
         <Card className="border-sky-200 dark:border-sky-900/40 bg-gradient-to-br from-sky-500/10 via-white dark:via-background to-sky-500/5">
-          <CardContent className="p-5 flex items-start justify-between">
+          <CardContent className="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-xl bg-sky-500 text-white shadow-xs">
@@ -110,7 +110,7 @@ export default function AttendanceModule() {
                 </div>
               </div>
 
-              <div className="pt-2">
+              <div className="pt-1">
                 <span className="text-xs text-muted-foreground">Today's Status: </span>
                 {todayOfficeStatus === "present" ? (
                   <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
@@ -128,7 +128,7 @@ export default function AttendanceModule() {
               size="sm"
               onClick={() => quickToggleMutation.mutate("office")}
               disabled={quickToggleMutation.isPending}
-              className="bg-sky-600 hover:bg-sky-700 text-white"
+              className="bg-sky-600 hover:bg-sky-700 text-white shrink-0 self-start sm:self-auto"
             >
               <Check className="h-3.5 w-3.5 mr-1" />
               {todayOfficeStatus === "present" ? "Update Time" : "Check In Now"}
@@ -138,7 +138,7 @@ export default function AttendanceModule() {
 
         {/* Gym Card */}
         <Card className="border-orange-200 dark:border-orange-900/40 bg-gradient-to-br from-orange-500/10 via-white dark:via-background to-orange-500/5">
-          <CardContent className="p-5 flex items-start justify-between">
+          <CardContent className="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-xl bg-orange-500 text-white shadow-xs">
@@ -150,7 +150,7 @@ export default function AttendanceModule() {
                 </div>
               </div>
 
-              <div className="pt-2">
+              <div className="pt-1">
                 <span className="text-xs text-muted-foreground">Today's Workout: </span>
                 {todayGymStatus === "workout_done" ? (
                   <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
@@ -168,7 +168,7 @@ export default function AttendanceModule() {
               size="sm"
               onClick={() => quickToggleMutation.mutate("gym")}
               disabled={quickToggleMutation.isPending}
-              className="bg-orange-600 hover:bg-orange-700 text-white"
+              className="bg-orange-600 hover:bg-orange-700 text-white shrink-0 self-start sm:self-auto"
             >
               <Flame className="h-3.5 w-3.5 mr-1" />
               {todayGymStatus === "workout_done" ? "Done ✓" : "Mark Workout Done"}
@@ -302,7 +302,7 @@ export default function AttendanceModule() {
           }}
           className="space-y-4 text-xs"
         >
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label className="text-xs">Date *</Label>
               <Input
@@ -342,7 +342,7 @@ export default function AttendanceModule() {
           </div>
 
           {activeTab === "office" ? (
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               <div>
                 <Label className="text-xs">Check In</Label>
                 <Input
@@ -372,7 +372,7 @@ export default function AttendanceModule() {
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <Label className="text-xs">Workout Focus / Muscle Group</Label>
                 <Input

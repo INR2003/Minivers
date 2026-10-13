@@ -244,12 +244,12 @@ export default function ContactsModule() {
                     )}
                     {contact.email && (
                       <div className="flex items-center justify-between text-muted-foreground">
-                        <span className="flex items-center gap-1.5 truncate max-w-[200px]">
-                          <Mail className="h-3.5 w-3.5 text-[#007ACC]" /> {contact.email}
+                        <span className="flex items-center gap-1.5 truncate max-w-[140px] sm:max-w-[200px]">
+                          <Mail className="h-3.5 w-3.5 text-[#007ACC] shrink-0" /> <span className="truncate">{contact.email}</span>
                         </span>
                         <a
                           href={`mailto:${contact.email}`}
-                          className="text-[10px] font-bold text-[#007ACC] hover:underline"
+                          className="text-[10px] font-bold text-[#007ACC] hover:underline shrink-0"
                         >
                           Mail
                         </a>
@@ -309,7 +309,7 @@ export default function ContactsModule() {
           }}
           className="space-y-4 text-xs"
         >
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label className="text-xs">Full Name *</Label>
               <Input
@@ -338,7 +338,7 @@ export default function ContactsModule() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label className="text-xs">Phone Number</Label>
               <Input
@@ -360,7 +360,7 @@ export default function ContactsModule() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label className="text-xs">Birthday</Label>
               <Input

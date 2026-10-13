@@ -333,7 +333,7 @@ export default function BankAccountsModule() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label className="text-xs">Bank / Institution Name *</Label>
               <Input
@@ -363,7 +363,7 @@ export default function BankAccountsModule() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label className="text-xs">Opening Balance (₹) *</Label>
               <Input
@@ -438,7 +438,7 @@ export default function BankAccountsModule() {
           }}
           className="space-y-4 text-xs"
         >
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label className="text-xs">Transaction Type</Label>
               <select
@@ -470,7 +470,7 @@ export default function BankAccountsModule() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label className="text-xs">
                 {txForm.transaction_type === "transfer" ? "From Account *" : "Account *"}
@@ -523,7 +523,7 @@ export default function BankAccountsModule() {
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label className="text-xs">Date</Label>
               <Input

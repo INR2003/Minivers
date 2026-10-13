@@ -183,7 +183,7 @@ export default function ExpensesModule() {
       {/* Expenses Table */}
       <Card>
         <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
               <CardTitle className="text-base font-bold">Recorded Expenses</CardTitle>
               <CardDescription className="text-xs">
@@ -278,7 +278,7 @@ export default function ExpensesModule() {
           }}
           className="space-y-4 text-xs"
         >
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label className="text-xs">Amount (₹) *</Label>
               <Input
@@ -303,7 +303,7 @@ export default function ExpensesModule() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <Label className="text-xs">Category</Label>
               <select

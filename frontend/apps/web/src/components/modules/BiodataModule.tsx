@@ -190,7 +190,7 @@ export default function BiodataModule() {
           <CardContent className="space-y-3 text-xs">
             {isEditing ? (
               <div className="space-y-3">
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <Label className="text-xs">Gender</Label>
                     <Input
@@ -209,7 +209,7 @@ export default function BiodataModule() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <Label className="text-xs">City</Label>
                     <Input

@@ -175,7 +175,7 @@ export default function DashboardOverview({ onSelectModule }: DashboardOverviewP
 
       {/* Quick Action Shortcuts */}
       <div className="rounded-2xl border bg-card p-4 sm:p-5 shadow-xs">
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex flex-wrap items-center justify-between gap-1 mb-3">
           <span className="text-xs font-bold text-foreground uppercase tracking-wider flex items-center gap-1.5">
             <Sparkles className="h-4 w-4 text-[#007ACC]" /> Quick Action Hub
           </span>
@@ -187,80 +187,80 @@ export default function DashboardOverview({ onSelectModule }: DashboardOverviewP
             size="sm"
             variant="outline"
             onClick={() => onSelectModule("expenses")}
-            className="flex-col h-16 justify-center gap-1 text-[11px] hover:border-emerald-500 hover:text-emerald-600"
+            className="flex-col h-16 justify-center gap-1 text-[10px] sm:text-[11px] hover:border-emerald-500 hover:text-emerald-600 px-1 text-center"
           >
             <Receipt className="h-4 w-4 text-emerald-500" />
-            <span>Add Expense</span>
+            <span className="truncate max-w-full">Add Expense</span>
           </Button>
 
           <Button
             size="sm"
             variant="outline"
             onClick={() => quickToggleMutation.mutate("office")}
-            className="flex-col h-16 justify-center gap-1 text-[11px] hover:border-sky-500 hover:text-sky-600"
+            className="flex-col h-16 justify-center gap-1 text-[10px] sm:text-[11px] hover:border-sky-500 hover:text-sky-600 px-1 text-center"
           >
             <Briefcase className="h-4 w-4 text-sky-500" />
-            <span>Check In</span>
+            <span className="truncate max-w-full">Check In</span>
           </Button>
 
           <Button
             size="sm"
             variant="outline"
             onClick={() => quickToggleMutation.mutate("gym")}
-            className="flex-col h-16 justify-center gap-1 text-[11px] hover:border-orange-500 hover:text-orange-600"
+            className="flex-col h-16 justify-center gap-1 text-[10px] sm:text-[11px] hover:border-orange-500 hover:text-orange-600 px-1 text-center"
           >
             <Dumbbell className="h-4 w-4 text-orange-500" />
-            <span>Gym Done</span>
+            <span className="truncate max-w-full">Gym Done</span>
           </Button>
 
           <Button
             size="sm"
             variant="outline"
             onClick={() => onSelectModule("payments")}
-            className="flex-col h-16 justify-center gap-1 text-[11px] hover:border-indigo-500 hover:text-indigo-600"
+            className="flex-col h-16 justify-center gap-1 text-[10px] sm:text-[11px] hover:border-indigo-500 hover:text-indigo-600 px-1 text-center"
           >
             <Wallet className="h-4 w-4 text-indigo-500" />
-            <span>Add Payment</span>
+            <span className="truncate max-w-full">Add Payment</span>
           </Button>
 
           <Button
             size="sm"
             variant="outline"
             onClick={() => onSelectModule("documents")}
-            className="flex-col h-16 justify-center gap-1 text-[11px] hover:border-blue-500 hover:text-blue-600"
+            className="flex-col h-16 justify-center gap-1 text-[10px] sm:text-[11px] hover:border-blue-500 hover:text-blue-600 px-1 text-center"
           >
             <FileText className="h-4 w-4 text-blue-500" />
-            <span>Upload File</span>
+            <span className="truncate max-w-full">Upload File</span>
           </Button>
 
           <Button
             size="sm"
             variant="outline"
             onClick={() => onSelectModule("notes")}
-            className="flex-col h-16 justify-center gap-1 text-[11px] hover:border-amber-500 hover:text-amber-600"
+            className="flex-col h-16 justify-center gap-1 text-[10px] sm:text-[11px] hover:border-amber-500 hover:text-amber-600 px-1 text-center"
           >
             <BookOpen className="h-4 w-4 text-amber-500" />
-            <span>Write Note</span>
+            <span className="truncate max-w-full">Write Note</span>
           </Button>
 
           <Button
             size="sm"
             variant="outline"
             onClick={() => onSelectModule("vault")}
-            className="flex-col h-16 justify-center gap-1 text-[11px] hover:border-emerald-500 hover:text-emerald-600"
+            className="flex-col h-16 justify-center gap-1 text-[10px] sm:text-[11px] hover:border-emerald-500 hover:text-emerald-600 px-1 text-center"
           >
             <KeyRound className="h-4 w-4 text-emerald-500" />
-            <span>Password</span>
+            <span className="truncate max-w-full">Password</span>
           </Button>
 
           <Button
             size="sm"
             variant="outline"
             onClick={() => onSelectModule("debt")}
-            className="flex-col h-16 justify-center gap-1 text-[11px] hover:border-purple-500 hover:text-purple-600"
+            className="flex-col h-16 justify-center gap-1 text-[10px] sm:text-[11px] hover:border-purple-500 hover:text-purple-600 px-1 text-center"
           >
             <Handshake className="h-4 w-4 text-purple-500" />
-            <span>Borrow/Lend</span>
+            <span className="truncate max-w-full">Borrow/Lend</span>
           </Button>
         </div>
       </div>
